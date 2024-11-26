@@ -21,7 +21,15 @@ return {
       format_on_save = {
         enabled = true, -- enable or disable format on save globally
         allow_filetypes = { -- enable format on save for specified filetypes only
-          -- "go",
+          "go",
+          "java",
+          "kotlin",
+          "rust",
+          "json",
+          "yaml",
+          "toml",
+          "lua",
+          "python",
         },
         ignore_filetypes = { -- disable format on save for specified filetypes
           -- "python",
@@ -38,7 +46,7 @@ return {
     },
     -- enable servers that you already have installed without mason
     servers = {
-      -- "pyright"
+      "pyright",
     },
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields
@@ -99,6 +107,13 @@ return {
           end,
           desc = "Declaration of current symbol",
           cond = "textDocument/declaration",
+        },
+         gi = {
+          function()
+            vim.lsp.buf.implementation()
+          end,
+          desc = "goto implementation",
+          cond = "textDocument/implementation",
         },
         -- },
       },
