@@ -1,8 +1,9 @@
--- REF: https://github.com/ggandor/leap.nvim
+-- REF: https://codeberg.org/andyg/leap.nvim
 return {
-  "ggandor/leap.nvim",
+  url = "https://codeberg.org/andyg/leap.nvim.git",
+  name = "leap.nvim",
   config = function()
-    vim.keymap.set({'n'}, 'f', '<Plug>(leap)')
+    vim.keymap.set({ "n" }, "f", "<Plug>(leap)")
   end,
   lazy = false,
 }

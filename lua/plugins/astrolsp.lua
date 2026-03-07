@@ -29,6 +29,7 @@ return {
           "yaml",
           "toml",
           "lua",
+          "nix",
           "python",
         },
         ignore_filetypes = { -- disable format on save for specified filetypes
@@ -101,17 +102,13 @@ return {
         --   function() require("astrolsp.toggles").buffer_semantic_tokens() end,
         --   desc = "Toggle LSP semantic highlight (buffer)",
         --   cond = function(client) return client.server_capabilities.semanticTokensProvider and vim.lsp.semantic_tokens end,
-         gd = {
-          function() 
-            vim.lsp.buf.declaration()
-          end,
+        gd = {
+          function() vim.lsp.buf.declaration() end,
           desc = "Declaration of current symbol",
           cond = "textDocument/declaration",
         },
-         gi = {
-          function()
-            vim.lsp.buf.implementation()
-          end,
+        gi = {
+          function() vim.lsp.buf.implementation() end,
           desc = "goto implementation",
           cond = "textDocument/implementation",
         },
