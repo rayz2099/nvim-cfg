@@ -24,12 +24,17 @@ return {
       virtual_text = true,
       underline = true,
     },
+    -- 第一次打开新语言时现场编译 parser 会堵住 UI, 改成只装 ensure_installed
+    treesitter = {
+      auto_install = false,
+    },
     -- vim options can be configured here
     options = {
       opt = { -- vim.opt.<key>
         relativenumber = true, -- sets vim.opt.relativenumber
         number = true, -- sets vim.opt.number
-        spell = true, -- sets vim.opt.spell
+        -- 代码 buffer 全量 spell 会在第一次绘制时同步查词典, 只留给散文 FileType
+        spell = false,
         -- 固定两列, 避免 git+diagnostic Sign 出现时把文本挤来挤去
         signcolumn = "yes:2",
         wrap = false, -- sets vim.opt.wrap
@@ -39,6 +44,38 @@ return {
         -- configure global vim variables (vim.g)
         -- NOTE: `mapleader` and `maplocalleader` must be set in the AstroNvim opts or before `lazy.setup`
         -- This can be found in the `lua/lazy_setup.lua` file
+      },
+    },
+    autocmds = {
+      prose_spell = {
+        {
+          event = "FileType",
+          pattern = { "gitcommit", "markdown", "text", "rst", "org" },
+          desc = "Why: 只在散文里开 spell, 避免代码第一次打开时主线程查词典",
+          callback = function() vim.opt_local.spell = true end,
+        },
+      },
+      prefetch_file_plugins = {
+        {
+          event = "User",
+          pattern = "VeryLazy",
+          desc = "Why: 把第一次打开文件才加载的 TS/LSP 提前到 UI 空闲",
+          callback = function()
+            vim.defer_fn(function()
+              require("lazy").load {
+                plugins = {
+                  "nvim-treesitter",
+                  "nvim-lspconfig",
+                  "mason-lspconfig.nvim",
+                  "astrolsp",
+                  "none-ls.nvim",
+                  "nvim-autopairs",
+                  "nvim-treesitter-textobjects",
+                },
+              }
+            end, 20)
+          end,
+        },
       },
     },
     -- Mappings can be configured through AstroCore as well.
