@@ -5,6 +5,22 @@ return {
   -- 关掉 better-escape, 避免 jk 抢掉正常输入手感
   { "max397574/better-escape.nvim", enabled = false },
 
+  -- Why: mini.icons 默认 init.lua 用 nf-linux-neovim, toml 用 nf-seti-toml, 当前字体缺这两个码点会画成 [?]
+  {
+    "nvim-mini/mini.icons",
+    opts = {
+      file = {
+        ["init.lua"] = { glyph = "󰢱", hl = "MiniIconsGreen" },
+      },
+      extension = {
+        toml = { glyph = "󰒓", hl = "MiniIconsOrange" },
+      },
+      filetype = {
+        toml = { glyph = "󰒓", hl = "MiniIconsOrange" },
+      },
+    },
+  },
+
   -- 恢复 snacks dashboard 上的猫猫头, 不要退回官方 ASTRONVIM 字标
   {
     "folke/snacks.nvim",
